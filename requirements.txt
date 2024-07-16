@@ -1,0 +1,27 @@
+pandas
+numpy
+matplotlib
+seaborn
+scipy
+scikit-learn
+
+#models
+catboost
+xgboost
+
+#setup
+notebook
+python-box==6.0.2
+pyYAML
+tqdm
+ensure
+joblib
+types-PyYAML
+dill
+
+# Deployment 
+Flask
+Flask-Cors
+tensorflow
+
+-e . #for setup.py
