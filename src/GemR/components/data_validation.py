@@ -33,8 +33,10 @@ class DataValidation:
                     validation_status = True
                     with open(self.config.STATUS_FILE, 'w') as f:
                         f.write(f"Validation status: {validation_status}")
-
+                        
+            logging.info(f"Validation status: {validation_status}")
             return validation_status
+            
         
         except Exception as e:
             raise CustomException(e,sys)

@@ -23,7 +23,10 @@ class DataValidationConfig:
 class DataTransformationConfig:
     root_dir: Path
     data_path: Path
-
+    train_data_path: Path
+    test_data_path: Path
+    target_column: str
+    preprocessor: Path
 
 #Option for mlflow
 @dataclass(frozen=True)

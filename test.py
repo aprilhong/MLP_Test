@@ -15,7 +15,3 @@ from GemR.components.data_transformation import DataTransformation, DataTransfor
 from GemR.components.model_trainer import ModelTrainerConfig, ModelTrainer
 import pathlib
 
-
-source_URL = 'https://github.com/aprilhong/MLP_Test/raw/main/train.csv'
-file_extension = pathlib.Path(source_URL).suffix
-print("File Extension: ", file_extension)

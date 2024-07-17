@@ -6,7 +6,7 @@ artifacts_root: artifacts
 # download file and unzip
 data_ingestion:
   root_dir: artifacts/data_ingestion
-  source_URL: https://github.com/aprilhong/MLP_Test/raw/main/gemdatas.zip
+  source_URL: https://github.com/aprilhong/MLP_Test/raw/main/gemraw.zip
   local_data_file: artifacts/data_ingestion/data.zip
   unzip_dir: artifacts/data_ingestion
 
@@ -20,6 +20,9 @@ data_validation:
 data_transformation:
   root_dir: artifacts/data_transformation
   data_path: artifacts/data_ingestion/data.csv
+  train_data_path: artifacts/data_transformation/train.csv
+  test_data_path: artifacts/data_transformation/test.csv
+  preprocessor: artifacts/data_transformation/preprocessor.pkl
 
 
 model_trainer:

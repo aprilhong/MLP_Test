@@ -10,7 +10,7 @@ from GemR.entity.config_entity import ModelTrainerConfig
 
 from sklearn.linear_model import ElasticNet
 from catboost import CatBoostRegressor
-from sklearn.ensemble import (AdaBoostRegressor, GradientBoostingRegressor, RandomForestRegressor,)
+from sklearn.ensemble import (AdaBoostRegressor, GradientBoostingRegressor, RandomForestRegressor)
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
 from sklearn.neighbors import KNeighborsRegressor
