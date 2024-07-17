@@ -6,7 +6,7 @@ artifacts_root: artifacts
 # download file and unzip
 data_ingestion:
   root_dir: artifacts/data_ingestion
-  source_URL: https://github.com/aprilhong/MLP_Test/raw/main/gemdata.zip
+  source_URL: https://github.com/aprilhong/MLP_Test/raw/main/gemdatas.zip
   local_data_file: artifacts/data_ingestion/data.zip
   unzip_dir: artifacts/data_ingestion
 
