@@ -8,15 +8,6 @@ class DataIngestionConfig:
     source_URL: str
     local_data_file: Path
     unzip_dir: Path
-    # train_data_path: str=os.path.join('artifacts','train.csv')
-    # test_data_path: str=os.path.join('artifacts','test.csv')
-    # raw_data_path: str=os.path.join('artifacts','data.csv')
-
-# @dataclass(frozen=True)
-# class DataIngestionConfig:
-#     train_data_path: str=os.path.join('artifacts','train.csv')
-#     test_data_path: str=os.path.join('artifacts','test.csv')
-#     raw_data_path: str=os.path.join('artifacts','data.csv')
 
 
 @dataclass(frozen=True)

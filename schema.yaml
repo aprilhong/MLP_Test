@@ -1,20 +1,16 @@
 # schema shows the data column names and type, used for data validation to ensure data is in correct format.
 
 COLUMNS:
-  fixed acidity: float64
-  volatile acidity: float64
-  citric acid: float64
-  residual sugar: float64
-  chlorides: float64
-  free sulfur dioxide: float64
-  total sulfur dioxide: float64
-  density: float64
-  pH: float64
-  sulphates: float64
-  alcohol: float64
-  quality: int64
-
+  id: int64
+  carat: float64
+  cut: object
+  color: object
+  clarity: object
+  depth: float64
+  table: float64
+  x: float64
+  y: float64
+  z: float64
 
 TARGET_COLUMN:
-  name: quality
-  
+  price: int64
