@@ -5,7 +5,7 @@ import numpy as np
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import OneHotEncoder,StandardScaler
+from sklearn.preprocessing import OrdinalEncoder,StandardScaler # OneHotEncoder
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 from GemR.logger import logging
@@ -49,25 +49,20 @@ class DataTransformation:
         
         '''
         try:
-            numerical_columns = [
-                "id", 
-                "carat", 
-                "depth", 
-                "table", 
-                "x", 
-                "y", 
-                "z"
-                ]
-            categorical_columns = [
-                "cut",
-                "color",
-                "clarity"
-            ]
-            num_pipeline= Pipeline(
-                steps=[
-                ("imputer",SimpleImputer(strategy="mean")),
-                ("scaler",StandardScaler())
+            # Define which columns should be ordinal-encoded and which should be scaled
+            categorical_cols = ['cut', 'color','clarity']
+            numerical_cols = ['carat', 'depth','table', 'x', 'y', 'z']
+            
+            # Define the custom ranking for each ordinal variable
+            cut_categories = ['Fair', 'Good', 'Very Good','Premium','Ideal']
+            color_categories = ['D', 'E', 'F', 'G', 'H', 'I', 'J']
+            clarity_categories = ['I1','SI2','SI1','VS2','VS1','VVS2','VVS1','IF']
 
+            # Numerical Pipeline
+            num_pipeline = Pipeline(
+                steps = [
+                ('imputer',SimpleImputer(strategy='median')),
+                ('scaler',StandardScaler())                
                 ]
             )
 
@@ -75,22 +70,22 @@ class DataTransformation:
 
                 steps=[
                 ("imputer",SimpleImputer(strategy="most_frequent")),
-                ("one_hot_encoder",OneHotEncoder()),
+                # ("one_hot_encoder",OneHotEncoder()),
+                ('ordinal_encoder',OrdinalEncoder(categories=[cut_categories,color_categories,clarity_categories])),
                 ("scaler",StandardScaler(with_mean=False))
                 ]
 
             )
 
-            logging.info(f"Categorical columns: {categorical_columns}")
-            logging.info(f"Numerical columns: {numerical_columns}")
+            logging.info(f"Categorical columns: {categorical_cols}")
+            logging.info(f"Numerical columns: {numerical_cols}")
 
             preprocessor=ColumnTransformer(
                 [
-                ("num_pipeline",num_pipeline,numerical_columns),
-                ("cat_pipelines",cat_pipeline,categorical_columns)
+                ("num_pipeline",num_pipeline,numerical_cols),
+                ("cat_pipelines",cat_pipeline,categorical_cols)
 
                 ]
-
 
             )
 

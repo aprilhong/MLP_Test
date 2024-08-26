@@ -2,11 +2,11 @@ from GemR.constants import *
 import os
 from pathlib import Path
 from GemR.utils.common import read_yaml, create_directories
-from GemR.entity.config_entity import (DataIngestionConfig,
-                                            DataValidationConfig,
-                                            DataTransformationConfig,
-                                            ModelTrainerConfig,
-                                            ModelEvaluationConfig)
+from GemR.entity.config_entity import DataIngestionConfig
+from GemR.entity.config_entity import DataValidationConfig
+from GemR.entity.config_entity import DataTransformationConfig
+from GemR.entity.config_entity import ModelTrainerConfig
+from GemR.entity.config_entity import ModelEvaluationConfig
 
 
 class ConfigurationManager:
@@ -86,7 +86,8 @@ class ConfigurationManager:
             model_name = config.model_name,
             alpha = params.alpha,
             l1_ratio = params.l1_ratio,
-            target_column = schema.name
+            target_column = schema.name,
+            preprocessor=config.preprocessor
             
         )
 

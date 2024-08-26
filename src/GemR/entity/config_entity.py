@@ -38,6 +38,7 @@ class ModelTrainerConfig:
     alpha: float
     l1_ratio: float
     target_column: str
+    preprocessor: Path
 
 # # Option 2
 # @dataclass(frozen=True)

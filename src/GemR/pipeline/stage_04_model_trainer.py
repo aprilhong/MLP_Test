@@ -4,8 +4,6 @@ from GemR.logger import logging
 from GemR.exception import CustomException
 import sys
 
-
-
 STAGE_NAME = "Model Trainer stage"
 
 class ModelTrainerTrainingPipeline:
@@ -16,7 +14,7 @@ class ModelTrainerTrainingPipeline:
         config = ConfigurationManager()
         model_trainer_config = config.get_model_trainer_config()
         model_trainer_config = ModelTrainer(config=model_trainer_config)
-        model_trainer_config.train()
+        model_trainer_config.regress_model_trainer()
 
 
 
