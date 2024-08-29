@@ -1,5 +1,6 @@
 from GemR.config.configuration import ConfigurationManager
 from GemR.components.model_trainer import ModelTrainer
+from GemR.components.data_transformation import DataTransformation
 from GemR.logger import logging
 from GemR.exception import CustomException
 import sys

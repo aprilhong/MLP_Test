@@ -65,7 +65,8 @@ class ConfigurationManager:
             target_column = schema.name,
             train_data_path = config.train_data_path,
             test_data_path = config.test_data_path,
-            preprocessor=config.preprocessor
+            preprocessor = config.preprocessor,
+            raw_data_path = config.raw_data_path
         )
 
         return data_transformation_config

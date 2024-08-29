@@ -32,15 +32,14 @@ class ModelTrainer:
          
         try:
             logging.info('Splitting Dependent and Independent variables from train and test data')
+
             train_data = pd.read_csv(self.config.train_data_path)
             test_data = pd.read_csv(self.config.test_data_path)
-
 
             X_train = train_data.drop([self.config.target_column], axis=1)
             X_test = test_data.drop([self.config.target_column], axis=1)
             y_train = train_data[[self.config.target_column]]
             y_test = test_data[[self.config.target_column]]
-
             
             models = {
                 "Linear Regression": LinearRegression(),
@@ -56,59 +55,62 @@ class ModelTrainer:
             }
 
 
-            params={
-                "Decision Tree": {
-                     'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
-                    # 'splitter':['best','random'],
-                    # 'max_features':['sqrt','log2'],
-                },
-                "Random Forest":{
-                    # 'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
+            # params={
+            #     "Decision Tree": {
+            #          'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
+            #         # 'splitter':['best','random'],
+            #         # 'max_features':['sqrt','log2'],
+            #     },
+            #     "Random Forest":{
+            #         # 'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
                  
-                    # 'max_features':['sqrt','log2',None],
-                    'n_estimators': [8,16,32,64,128,256]
-                },
-                "Gradient Boosting":{
-                    # 'loss':['squared_error', 'huber', 'absolute_error', 'quantile'],
-                    'learning_rate':[.1,.01,.05,.001],
-                    'subsample':[0.6,0.7,0.75,0.8,0.85,0.9],
-                    # 'criterion':['squared_error', 'friedman_mse'],
-                    # 'max_features':['auto','sqrt','log2'],
-                    'n_estimators': [8,16,32,64,128,256]
-                },
-                "Linear Regression":{},
-                "K-Neighbors Classifier":{
-                    'n_neighbors':[5,7,9,11],
-                    # 'weights':['uniform','distance'],
-                    # 'algorithm':['ball_tree','kd_tree','brute']
-                },
-                "XGBRegressor":{
-                    'learning_rate':[.1,.01,.05,.001],
-                    'n_estimators': [8,16,32,64,128,256]
-                },
-                "CatBoosting Regressor":{
-                    'depth': [6,8,10],
-                    'learning_rate': [0.01, 0.05, 0.1],
-                    'iterations': [30, 50, 100]
-                },
-                "AdaBoost Regressor":{
-                    'learning_rate':[.1,.01,0.5,.001],
-                    # 'loss':['linear','square','exponential'],
-                    'n_estimators': [8,16,32,64,128,256]
-                }
+            #         # 'max_features':['sqrt','log2',None],
+            #         'n_estimators': [8,16,32,64,128,256]
+            #     },
+            #     "Gradient Boosting":{
+            #         # 'loss':['squared_error', 'huber', 'absolute_error', 'quantile'],
+            #         'learning_rate':[.1,.01,.05,.001],
+            #         'subsample':[0.6,0.7,0.75,0.8,0.85,0.9],
+            #         # 'criterion':['squared_error', 'friedman_mse'],
+            #         # 'max_features':['auto','sqrt','log2'],
+            #         'n_estimators': [8,16,32,64,128,256]
+            #     },
+            #     "Linear Regression":{},
+            #     "K-Neighbors Classifier":{
+            #         'n_neighbors':[5,7,9,11],
+            #         # 'weights':['uniform','distance'],
+            #         # 'algorithm':['ball_tree','kd_tree','brute']
+            #     },
+            #     "XGBRegressor":{
+            #         'learning_rate':[.1,.01,.05,.001],
+            #         'n_estimators': [8,16,32,64,128,256]
+            #     },
+            #     "CatBoosting Regressor":{
+            #         'depth': [6,8,10],
+            #         'learning_rate': [0.01, 0.05, 0.1],
+            #         'iterations': [30, 50, 100]
+            #     },
+            #     "AdaBoost Regressor":{
+            #         'learning_rate':[.1,.01,0.5,.001],
+            #         # 'loss':['linear','square','exponential'],
+            #         'n_estimators': [8,16,32,64,128,256]
+            #     }
                 
-            }
+            # }
 
             model_report:dict=evaluate_models(
-                X_train=X_train,
-                y_train=y_train,
-                X_test=X_test,
-                y_test=y_test,
-                models=models,
-                param=params)
+                X_train,
+                y_train,
+                X_test,
+                y_test,
+                models
+                # param=params
+                )
+                                                
             
             print(model_report)
             print('\n====================================================================================\n')
+            
             logging.info(f'Model Report : {model_report}')
             # To get best model score from dictionary 
             best_model_score = max(sorted(model_report.values()))
@@ -122,7 +124,6 @@ class ModelTrainer:
                 logging.info('Best model has r2 Score less than 60%')
                 raise CustomException('No Best Model Found')
             
-            print(f'Best Model Found , Model Name : {best_model_name} , R2 Score : {best_model_score}')
             print('\n====================================================================================\n')
             logging.info(f'Best Model Found , Model Name : {best_model_name} , R2 Score : {best_model_score}')
             logging.info('Hyperparameter tuning started for catboost')
@@ -143,7 +144,7 @@ class ModelTrainer:
             rscv.fit(X_train, y_train)
 
             # Print the tuned parameters and score
-            print(f'Best Catboost parameters : {rscv.best_params_}')
+            print(f'\nBest Catboost parameters : {rscv.best_params_}')
             print(f'Best Catboost Score : {rscv.best_score_}')
             print('\n====================================================================================\n')
 
@@ -183,9 +184,10 @@ class ModelTrainer:
             logging.info('Voting Regressor Training Completed')
 
             save_object(
-                file_path=self.model_trainer_config.trained_model_file_path,
+                file_path=os.path.join(self.config.root_dir, "model.pkl"),
                 obj = er
             )
+            
             logging.info('Model pickle file saved')
             # Evaluating Ensemble Regressor (Voting Classifier on test data)
             ytest_pred = er.predict(X_test)

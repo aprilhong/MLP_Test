@@ -20,7 +20,6 @@ from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 from sklearn.model_selection import GridSearchCV
 
 
-
 @ensure_annotations
 def read_yaml(path_to_yaml: Path) -> ConfigBox:
     """reads yaml file and returns
@@ -31,7 +30,6 @@ def read_yaml(path_to_yaml: Path) -> ConfigBox:
     Raises:
         ValueError: if yaml file is empty
         e: empty file
-
     Returns:
         ConfigBox: ConfigBox type
     """
@@ -45,6 +43,7 @@ def read_yaml(path_to_yaml: Path) -> ConfigBox:
     except Exception as e:
         raise CustomException(e, sys)
     
+
 
 @ensure_annotations
 def create_directories(path_to_directories: list, verbose=True):
@@ -167,31 +166,26 @@ def save_object(file_path, obj):
         raise CustomException(e,sys)
     
   
-def evaluate_models(X_train, y_train, X_test, y_test, models, param):
+def evaluate_models(xtrain, ytrain, xtest, ytest, models):
+
     try:
         report = {}
-
-        for i in range(len(list(models))):
+        for i in range(len(models)):
             model = list(models.values())[i]
-            para=param[list(models.keys())[i]]
+            # Train model
+            model.fit(xtrain,ytrain)
 
-            gs = GridSearchCV(model,para,cv=3)
-            gs.fit(X_train,y_train)
+            # Predict Training data
+            y_train_pred = model.predict(xtrain)
 
-            model.set_params(**gs.best_params_)
-            model.fit(X_train,y_train)
+            # Predict Testing data
+            y_test_pred =model.predict(xtest)
 
-            #model.fit(X_train, y_train)  # Train model
+            # Get R2 scores for train and test data
+            train_model_score = r2_score(ytrain,y_train_pred)
+            test_model_score = r2_score(ytest,y_test_pred)
 
-            y_train_pred = model.predict(X_train)
-
-            y_test_pred = model.predict(X_test)
-
-            train_model_score = r2_score(y_train, y_train_pred)
-
-            test_model_score = r2_score(y_test, y_test_pred)
-
-            report[list(models.keys())[i]] = test_model_score
+            report[list(models.keys())[i]] =  test_model_score
 
         return report
 

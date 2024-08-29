@@ -27,6 +27,7 @@ class DataTransformationConfig:
     test_data_path: Path
     target_column: str
     preprocessor: Path
+    raw_data_path: Path 
 
 #Option for mlflow
 @dataclass(frozen=True)
